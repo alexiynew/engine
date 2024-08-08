@@ -7,8 +7,17 @@ target_sources(engine_sources PRIVATE
 
 target_include_directories(engine_sources PRIVATE .)
 
-target_link_libraries(engine_sources PRIVATE Engine::CompileOptions)
-target_link_libraries(engine_sources PRIVATE Engine::Headers)
-target_link_libraries(engine_sources PRIVATE Engine::BackendHeaders)
+target_link_libraries(engine_sources 
+    PRIVATE 
+        Engine::CompileOptions
+        Engine::Headers
+        Engine::BackendHeaders
+)
+
+set_target_properties(engine_sources PROPERTIES 
+    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CPPCHECK>
+    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
+)
+
 
 add_library(Engine::Sources ALIAS engine_sources)

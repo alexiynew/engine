@@ -24,7 +24,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Compilation flags
-include(cmake/static_analysis_tools)
 include(cmake/compile_options)
 
 # Add sources
@@ -35,15 +34,24 @@ add_subdirectory(src)
 add_subdirectory(modules/engine_backend)
 
 # Link all together
-add_library(engine)
-target_link_libraries(engine PRIVATE Engine::CompileOptions)
-target_link_libraries(engine PRIVATE Engine::Sources)
-target_link_libraries(engine PRIVATE Engine::Backend)
 
-target_link_libraries(engine PUBLIC Engine::Headers)
+add_library(engine)
+
+target_link_libraries(engine 
+    PUBLIC 
+        Engine::Headers
+    PRIVATE 
+        Engine::CompileOptions
+        Engine::Sources
+        Engine::Backend
+)
+
+set_target_properties(engine PROPERTIES 
+    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CPPCHECK>
+    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
+)
 
 add_library(Engine ALIAS engine)
-
 
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
@@ -53,7 +61,6 @@ if(ENABLE_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif()
-
 
 # Status
 message("#########################################")

@@ -7,15 +7,22 @@ if(NOT TARGET sdl_backend)
     add_subdirectory(${CMAKE_SOURCE_DIR}/modules/engine_backend/sdl ${CMAKE_CURRENT_BINARY_DIR}/sdl)
 endif()
 
-target_link_libraries(${TEST_NAME} PRIVATE 
-    sdl_backend
+target_link_libraries(${TEST_NAME} 
+    PRIVATE 
+        sdl_backend
 )
 
-target_link_libraries(${TEST_NAME} PRIVATE 
-    Engine::CompileOptions
-    Engine::Headers
-    Engine::BackendHeaders
-    Engine::Sources
-    Libs::GTest 
-    Libs::GMock
+target_link_libraries(${TEST_NAME} 
+    PRIVATE 
+        Engine::CompileOptions
+        Engine::Headers
+        Engine::BackendHeaders
+        Engine::Sources
+        Libs::GTest 
+        Libs::GMock
+)
+
+set_target_properties(${TEST_NAME} PROPERTIES 
+    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CPPCHECK>
+    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
 )

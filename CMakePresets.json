@@ -1,0 +1,43 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 27,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default-options",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "OFF",
+                "ENABLE_TESTING": "ON",
+                "ENABLE_ASAN": "OFF",
+                "ENABLE_CLANG_TIDY": "ON",
+                "ENABLE_CPPCHECK": "ON",
+                "BUILD_EXAMPLES": "ON",
+                "ENGINE_USE_SDL_BACKEND": "ON"
+            }
+        },
+        {
+            "name": "ninja-multi",
+            "inherits": "default-options",
+            "displayName": "Ninja Multi-Config",
+            "description": "Default build using Ninja Multi-Config generator",
+            "generator": "Ninja Multi-Config"
+        },
+        {
+            "name": "windows-only",
+            "inherits": "default-options",
+            "displayName": "Windows configuration",
+            "description": "This build is only available on Windows",
+            "generator": "Visual Studio 17 2022",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        }
+    ]
+}

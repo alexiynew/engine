@@ -41,4 +41,28 @@ if(ENABLE_ASAN)
     target_link_libraries(engine_compile_options INTERFACE -fsanitize=address)
 endif()
 
+if(ENABLE_CLANG_TIDY)
+    find_program(CLANGTIDY clang-tidy)
+    if(CLANGTIDY)
+        set(CXX_CLANG_TIDY ${CLANGTIDY})
+        set_target_properties(engine_compile_options PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
+    else()
+        message(SEND_ERROR "clang-tidy requested but executable not found")
+    endif()
+endif()
+
+if(ENABLE_CPPCHECK)
+    find_program(CPPCHECK cppcheck)
+    if(CPPCHECK)
+        set(CXX_CPPCHECK
+            ${CPPCHECK}
+            --enable=all
+            --suppressions-list=${CMAKE_CURRENT_SOURCE_DIR}/suppress.cppcheck
+            --inconclusive)
+        set_target_properties(engine_compile_options PROPERTIES CXX_CPPCHECK "${CXX_CPPCHECK}")
+    else()
+        message(SEND_ERROR "cppcheck requested but executable not found")
+    endif()
+endif()
+
 add_library(Engine::CompileOptions ALIAS engine_compile_options)
