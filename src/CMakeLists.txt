@@ -19,5 +19,4 @@ set_target_properties(engine_sources PROPERTIES
     CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
 )
 
-
 add_library(Engine::Sources ALIAS engine_sources)

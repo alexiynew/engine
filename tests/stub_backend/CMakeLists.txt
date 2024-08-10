@@ -10,12 +10,7 @@ endif()
 target_link_libraries(${TEST_NAME} 
     PRIVATE 
         stub_backend
-)
-
-target_link_libraries(${TEST_NAME} 
-    PRIVATE 
         Engine::CompileOptions
-        Engine::Headers
         Engine::BackendHeaders
         Engine::Sources
         Libs::GTest 

@@ -8,16 +8,36 @@ FetchContent_Declare(
 
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 
+set(GTEST_CUSTOM_GCC_OPTIONS -Wno-undef)
+
+set(GTEST_CUSTOM_MSVC_OPTIONS 
+    $<$<CONFIG:>:/MT> #---------|
+    $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
+    $<$<CONFIG:Release>:/MT> #--|
+)
+
+add_library(gtest_compile_options INTERFACE)
+target_compile_options(gtest_compile_options 
+    INTERFACE 
+        $<${GCC_LIKE_COMPILER}:${GTEST_CUSTOM_GCC_OPTIONS}>
+        $<${MSVC_LIKE_COMPILER}:${GTEST_CUSTOM_MSVC_OPTIONS}>
+)
+
+
 FetchContent_MakeAvailable(googletest)
 
+target_link_libraries(gtest PRIVATE gtest_compile_options)
+target_link_libraries(gtest_main PRIVATE gtest_compile_options)
+target_link_libraries(gmock PRIVATE gtest_compile_options)
+target_link_libraries(gmock_main PRIVATE gtest_compile_options)
+
+set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "libs/gtest")
+
+# Define lids to link
 add_library(Libs::GTest INTERFACE IMPORTED)
 target_link_libraries(Libs::GTest INTERFACE gtest_main)
 target_include_directories(Libs::GTest INTERFACE ${googletest_SOURCE_DIR}/googletest/include)
-target_compile_options(gtest PRIVATE -Wno-undef)
-target_compile_options(gtest_main PRIVATE -Wno-undef)
 
 add_library(Libs::GMock INTERFACE IMPORTED)
 target_link_libraries(Libs::GMock INTERFACE gmock_main)
 target_include_directories(Libs::GMock INTERFACE ${googletest_SOURCE_DIR}/googletest/include)
-target_compile_options(gmock PRIVATE -Wno-undef)
-target_compile_options(gmock_main PRIVATE -Wno-undef)

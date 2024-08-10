@@ -30,9 +30,49 @@
         {
             "name": "windows-only",
             "inherits": "default-options",
-            "displayName": "Windows configuration",
+            "displayName": "Windows Visual Studio",
             "description": "This build is only available on Windows",
             "generator": "Visual Studio 17 2022",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "ninja-debug",
+            "configurePreset": "ninja-multi",
+            "displayName": "Ninja Debug",
+            "jobs": 12,
+            "configuration": "Debug"
+        },
+        {
+            "name": "ninja-release",
+            "configurePreset": "ninja-multi",
+            "displayName": "Ninja Release",
+            "jobs": 12,
+            "configuration": "Release"
+        },
+        {
+            "name": "vs-debug",
+            "configurePreset": "windows-only",
+            "displayName": "Windows Visual Studio Debug",
+            "jobs": 12,
+            "configuration": "Debug",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "vs-release",
+            "configurePreset": "windows-only",
+            "displayName": "Windows Visual Studio Release",
+            "jobs": 12,
+            "configuration": "Release",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",

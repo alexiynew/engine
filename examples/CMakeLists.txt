@@ -17,3 +17,7 @@ set_target_properties(example PROPERTIES
     CXX_CPPCHECK $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CPPCHECK>
     CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
 )
+
+set_target_properties(example PROPERTIES 
+    FOLDER "examples"
+)

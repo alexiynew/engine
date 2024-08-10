@@ -28,13 +28,18 @@ set(MSVC_OPTIONS
     -WX
     -DNOMINMAX
     -DUNICODE
-    -MT
+    $<$<CONFIG:>:/MT> #---------|
+    $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
+    $<$<CONFIG:Release>:/MT> #--|
 )
 
 target_compile_features(engine_compile_options INTERFACE cxx_std_23)
 
-target_compile_options(engine_compile_options INTERFACE $<${GCC_LIKE_COMPILER}:${GCC_OPTIONS}>)
-target_compile_options(engine_compile_options INTERFACE $<${MSVC_LIKE_COMPILER}:${MSVC_OPTIONS}>)
+target_compile_options(engine_compile_options 
+    INTERFACE 
+        $<${GCC_LIKE_COMPILER}:${GCC_OPTIONS}>
+        $<${MSVC_LIKE_COMPILER}:${MSVC_OPTIONS}>
+)
 
 if(ENABLE_ASAN)
     target_compile_options(engine_compile_options INTERFACE -fsanitize=address)

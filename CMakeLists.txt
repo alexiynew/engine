@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27 FATAL_ERROR)
 
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" FALSE)
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable the building of the test" ON)
 option(ENABLE_ASAN "Enable address sanitizer" OFF)
 option(ENABLE_CLANG_TIDY "Enable testing with clang-tidy" OFF)
@@ -34,21 +34,13 @@ add_subdirectory(src)
 add_subdirectory(modules/engine_backend)
 
 # Link all together
-
-add_library(engine)
+add_library(engine INTERFACE)
 
 target_link_libraries(engine 
-    PUBLIC 
+    INTERFACE
         Engine::Headers
-    PRIVATE 
-        Engine::CompileOptions
         Engine::Sources
         Engine::Backend
-)
-
-set_target_properties(engine PROPERTIES 
-    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CPPCHECK>
-    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::CompileOptions,CXX_CLANG_TIDY>
 )
 
 add_library(Engine ALIAS engine)
