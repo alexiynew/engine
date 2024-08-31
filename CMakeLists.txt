@@ -26,22 +26,31 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 # Compilation flags
 include(cmake/compile_options)
 
-# Add sources
+# Add headers lib
 add_subdirectory(include)
-add_subdirectory(src)
 
 # Add engine backend
 add_subdirectory(modules/engine_backend)
 
 # Link all together
-add_library(engine INTERFACE)
+add_library(engine STATIC)
 
 target_link_libraries(engine 
-    INTERFACE
+    PUBLIC
         Engine::Headers
-        Engine::Sources
+        Engine::EntryPoint
+    PRIVATE
+        Engine::PrivateCompileOptions
         Engine::Backend
 )
+
+set_target_properties(engine PROPERTIES 
+    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CPPCHECK>
+    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CLANG_TIDY>
+)
+
+# Add engine sources
+include(src/src.cmake)
 
 add_library(Engine ALIAS engine)
 
@@ -58,6 +67,7 @@ endif()
 message("#########################################")
 message("\t \t Summary")
 message("#########################################")
+
 message("Build type:         \t ${CMAKE_BUILD_TYPE}")
 message("Install prefix:     \t ${CMAKE_INSTALL_PREFIX}")
 message("Compiler:           \t ${CMAKE_CXX_COMPILER_ID}")

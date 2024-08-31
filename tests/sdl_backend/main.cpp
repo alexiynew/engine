@@ -1,14 +1,11 @@
 #include <iostream>
 
-#include <engine_backend_factory.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 TEST(InitBackend, SdlBackend)
 {
-    auto backend = game::modules::engine_backend::CreateBackend();
-    backend->Init();
-    backend->Quit();
+    FAIL();
 }
 
 int main(int argc, char** argv)

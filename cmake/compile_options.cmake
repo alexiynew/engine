@@ -1,8 +1,8 @@
+set(GCC_LIKE_COMPILER_ID ARMClang,AppleClang,Clang,GNU,LCC)
+set(MSVC_LIKE_COMPILER_ID MSVC)
 
-add_library(engine_compile_options INTERFACE)
-
-set(GCC_LIKE_COMPILER $<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>)
-set(MSVC_LIKE_COMPILER $<COMPILE_LANG_AND_ID:CXX,MSVC>)
+set(GCC_LIKE_COMPILER $<COMPILE_LANG_AND_ID:CXX,${GCC_LIKE_COMPILER_ID}>)
+set(MSVC_LIKE_COMPILER $<COMPILE_LANG_AND_ID:CXX,${MSVC_LIKE_COMPILER_ID}>)
 
 set(GCC_OPTIONS 
     -Wall
@@ -24,33 +24,32 @@ set(GCC_OPTIONS
 )
 
 set(MSVC_OPTIONS 
-    -W4
-    -WX
-    -DNOMINMAX
-    -DUNICODE
-    $<$<CONFIG:>:/MT> #---------|
-    $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
-    $<$<CONFIG:Release>:/MT> #--|
+    /W4
+    /WX
+    /DUNICODE
+    /D_UNICODE
 )
 
-target_compile_features(engine_compile_options INTERFACE cxx_std_23)
+add_library(private_compile_options INTERFACE)
 
-target_compile_options(engine_compile_options 
+target_compile_features(private_compile_options INTERFACE cxx_std_23)
+
+target_compile_options(private_compile_options 
     INTERFACE 
         $<${GCC_LIKE_COMPILER}:${GCC_OPTIONS}>
         $<${MSVC_LIKE_COMPILER}:${MSVC_OPTIONS}>
 )
 
 if(ENABLE_ASAN)
-    target_compile_options(engine_compile_options INTERFACE -fsanitize=address)
-    target_link_libraries(engine_compile_options INTERFACE -fsanitize=address)
+    target_compile_options(private_compile_options INTERFACE -fsanitize=address)
+    target_link_libraries(private_compile_options INTERFACE -fsanitize=address)
 endif()
 
 if(ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
     if(CLANGTIDY)
         set(CXX_CLANG_TIDY ${CLANGTIDY})
-        set_target_properties(engine_compile_options PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
+        set_target_properties(private_compile_options PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
     else()
         message(SEND_ERROR "clang-tidy requested but executable not found")
     endif()
@@ -64,10 +63,10 @@ if(ENABLE_CPPCHECK)
             --enable=all
             --suppressions-list=${CMAKE_CURRENT_SOURCE_DIR}/suppress.cppcheck
             --inconclusive)
-        set_target_properties(engine_compile_options PROPERTIES CXX_CPPCHECK "${CXX_CPPCHECK}")
+        set_target_properties(private_compile_options PROPERTIES CXX_CPPCHECK "${CXX_CPPCHECK}")
     else()
         message(SEND_ERROR "cppcheck requested but executable not found")
     endif()
 endif()
 
-add_library(Engine::CompileOptions ALIAS engine_compile_options)
+add_library(Engine::PrivateCompileOptions ALIAS private_compile_options)

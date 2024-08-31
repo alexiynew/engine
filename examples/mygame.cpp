@@ -2,6 +2,14 @@
 
 #include <iostream>
 
+namespace game
+{
+    std::unique_ptr<Game> CreateGame()
+    {
+        return std::make_unique<MyGame>();
+    }
+} // namespace game
+
 MyGame::MyGame()
 {
     std::cout << "MyGame::MyGame()" << std::endl;
@@ -12,9 +20,14 @@ MyGame::~MyGame()
     std::cout << "MyGame::~MyGame()" << std::endl;
 }
 
-void MyGame::OnLoad()
+void MyGame::OnInit()
 {
     std::cout << "MyGame::OnLoad()" << std::endl;
+}
+
+void MyGame::OnEvent()
+{
+    std::cout << "MyGame::OnEvent()" << std::endl;
 }
 
 void MyGame::OnUpdate()
@@ -25,8 +38,6 @@ void MyGame::OnUpdate()
 void MyGame::OnDraw()
 {
     std::cout << "MyGame::Draw()" << std::endl;
-
-    Quit();
 }
 
 void MyGame::OnQuit()

@@ -15,18 +15,16 @@ namespace game
         Game();
         virtual ~Game();
 
-        void Run();
-        void Quit();
-
-    protected:
-        virtual void OnLoad()   = 0;
+        virtual void OnInit()   = 0;
+        virtual void OnEvent()  = 0;
         virtual void OnUpdate() = 0;
         virtual void OnDraw()   = 0;
         virtual void OnQuit()   = 0;
 
     private:
-        bool m_running = false;
         std::unique_ptr<modules::engine_backend::Backend> m_backend;
     };
+
+    std::unique_ptr<Game> CreateGame();
 
 } // namespace game

@@ -5,15 +5,15 @@ namespace game::modules::engine_backend
     class Backend
     {
     public:
-        Backend() = default;
+        Backend();
 
-        virtual ~Backend() = default;
+        virtual ~Backend();
 
         Backend(const Backend&) = delete;
-        Backend(Backend&&)      = default;
+        Backend(Backend&&);
 
         Backend& operator=(const Backend&) = delete;
-        Backend& operator=(Backend&&)      = default;
+        Backend& operator=(Backend&&);
 
         virtual bool Init() = 0;
         virtual void Quit() = 0;

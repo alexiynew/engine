@@ -1,25 +1,33 @@
-# Backend headers lib
-add_library(engine_backend_headers INTERFACE)
+# Backend lib
+add_library(engine_backend STATIC)
 
-target_sources(engine_backend_headers 
-    INTERFACE
+target_sources(engine_backend
+    PUBLIC
         engine_backend.hpp
-        engine_backend_factory.hpp
+    PRIVATE
+        engine_backend.cpp
 )
 
-target_include_directories(engine_backend_headers INTERFACE .)
+target_link_libraries(engine_backend 
+    PRIVATE 
+        Engine::PrivateCompileOptions
+)
 
-add_library(Engine::BackendHeaders ALIAS engine_backend_headers)
+set_target_properties(engine_backend PROPERTIES 
+    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CPPCHECK>
+    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CLANG_TIDY>
+)
 
-# Backend lib
-add_library(engine_backend INTERFACE)
+target_include_directories(engine_backend PRIVATE .)
 
+add_library(engine_entry_point OBJECT)
+
+# Backend implementation lib
 if(${ENGINE_USE_SDL_BACKEND})
-    add_subdirectory(sdl)
-    target_link_libraries(engine_backend INTERFACE sdl_backend)
+    include(sdl/sdl_backend.cmake)
 else()
-    add_subdirectory(stub)
-    target_link_libraries(engine_backend INTERFACE stub_backend)
+    include(stub/stub_backend)
 endif()
 
 add_library(Engine::Backend ALIAS engine_backend)
+add_library(Engine::EntryPoint ALIAS engine_entry_point)

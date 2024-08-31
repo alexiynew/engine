@@ -7,7 +7,8 @@ public:
     ~MyGame() override;
 
 private:
-    virtual void OnLoad() override;
+    virtual void OnInit() override;
+    virtual void OnEvent() override;
     virtual void OnUpdate() override;
     virtual void OnDraw() override;
     virtual void OnQuit() override;
