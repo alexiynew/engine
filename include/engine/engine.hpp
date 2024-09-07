@@ -2,18 +2,18 @@
 
 #include <memory>
 
-namespace game
+namespace engine
 {
     namespace modules::engine_backend
     {
         class Backend;
     }
 
-    class Game
+    class Engine
     {
     public:
-        Game();
-        virtual ~Game();
+        Engine();
+        virtual ~Engine();
 
         virtual void OnInit()   = 0;
         virtual void OnEvent()  = 0;
@@ -25,6 +25,6 @@ namespace game
         std::unique_ptr<modules::engine_backend::Backend> m_backend;
     };
 
-    std::unique_ptr<Game> CreateGame();
+    std::unique_ptr<Engine> CreateGame();
 
-} // namespace game
+} // namespace engine

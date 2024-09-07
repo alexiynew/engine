@@ -29,8 +29,11 @@ include(cmake/compile_options)
 # Add headers lib
 add_subdirectory(include)
 
+# Add engine sources
+add_subdirectory(src)
+
 # Add engine backend
-add_subdirectory(modules/engine_backend)
+add_subdirectory(modules/backend)
 
 # Link all together
 add_library(engine STATIC)
@@ -39,17 +42,8 @@ target_link_libraries(engine
     PUBLIC
         Engine::Headers
     PRIVATE
-        Engine::PrivateCompileOptions
-        Engine::Backend
+        Engine::Sources
 )
-
-set_target_properties(engine PROPERTIES 
-    CXX_CPPCHECK $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CPPCHECK>
-    CXX_CLANG_TIDY $<TARGET_PROPERTY:Engine::PrivateCompileOptions,CXX_CLANG_TIDY>
-)
-
-# Add engine sources
-include(src/src.cmake)
 
 add_library(Engine ALIAS engine)
 

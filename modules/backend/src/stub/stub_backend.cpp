@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace game::modules::engine_backend
+namespace engine::modules::engine_backend
 {
     StubBackend::StubBackend()
     {
@@ -25,4 +25,4 @@ namespace game::modules::engine_backend
         std::cout << "StubBackend::Quit" << std::endl;
     }
 
-} // namespace game::modules::engine_backend
+} // namespace engine::modules::engine_backend

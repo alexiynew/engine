@@ -2,7 +2,7 @@
 
 #include <engine/graphics.hpp>
 
-namespace game
+namespace engine
 {
     Graphics::Graphics()
     {

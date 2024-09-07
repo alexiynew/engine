@@ -4,7 +4,7 @@ target_include_directories(engine_headers INTERFACE .)
 
 target_sources(engine_headers 
     INTERFACE 
-        engine/game.hpp
+        engine/engine.hpp
         engine/graphics.hpp
 )
 

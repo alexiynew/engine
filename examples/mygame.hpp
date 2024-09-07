@@ -1,6 +1,6 @@
-#include <engine/game.hpp>
+#include <engine/engine.hpp>
 
-class MyGame : public game::Game
+class MyGame : public engine::Engine
 {
 public:
     MyGame();

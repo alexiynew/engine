@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-namespace game
+namespace engine
 {
-    std::unique_ptr<Game> CreateGame()
+    std::unique_ptr<Engine> CreateGame()
     {
         return std::make_unique<MyGame>();
     }
-} // namespace game
+} // namespace engine
 
 MyGame::MyGame()
 {

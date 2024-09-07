@@ -16,5 +16,5 @@ target_compile_features(example PRIVATE cxx_std_23)
 
 set_target_properties(example PROPERTIES 
     FOLDER "examples"
-    WIN32_EXECUTABLE ON
+    WIN32_EXECUTABLE OFF
 )

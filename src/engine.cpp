@@ -1,18 +1,18 @@
 #include <iostream>
 
-#include <engine/game.hpp>
-#include <engine_backend/engine_backend.hpp>
+#include <backend/backend.hpp>
+#include <engine/engine.hpp>
 
-namespace game
+namespace engine
 {
-    Game::Game()
+    Engine::Engine()
     {
         std::cout << "Game::Game" << std::endl;
     }
 
-    Game::~Game()
+    Engine::~Engine()
     {
         std::cout << "Game::~Game" << std::endl;
     }
 
-} // namespace game
+} // namespace engine

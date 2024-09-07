@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include <engine/game.hpp>
+#include <engine/engine.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-class GameMock : public game::Game
+class GameMock : public engine::Engine
 {
 public:
     MOCK_METHOD(void, OnInit, (), (override));

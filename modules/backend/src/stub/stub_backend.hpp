@@ -2,7 +2,7 @@
 
 #include <engine_backend.hpp>
 
-namespace game::modules::engine_backend
+namespace engine::modules::engine_backend
 {
     class StubBackend : public Backend
     {
@@ -17,4 +17,4 @@ namespace game::modules::engine_backend
         void Quit() override;
     };
 
-} // namespace game::modules::engine_backend
+} // namespace engine::modules::engine_backend

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace game
+namespace engine
 {
     class Graphics
     {
@@ -8,4 +8,4 @@ namespace game
         Graphics();
         virtual ~Graphics();
     };
-} // namespace game
+} // namespace engine
