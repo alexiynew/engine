@@ -21,11 +21,26 @@
             }
         },
         {
-            "name": "ninja-multi",
+            "name": "ninja-multi-clang",
             "inherits": "default-options",
-            "displayName": "Ninja Multi-Config",
+            "displayName": "Ninja Multi-Config Clang",
             "description": "Default build using Ninja Multi-Config generator",
-            "generator": "Ninja Multi-Config"
+            "generator": "Ninja Multi-Config",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang"
+            }
+        },
+        {
+            "name": "ninja-multi-gcc",
+            "inherits": "default-options",
+            "displayName": "Ninja Multi-Config GCC",
+            "description": "Default build using Ninja Multi-Config generator",
+            "generator": "Ninja Multi-Config",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
         },
         {
             "name": "windows-only",
@@ -42,15 +57,29 @@
     ],
     "buildPresets": [
         {
-            "name": "ninja-debug",
-            "configurePreset": "ninja-multi",
+            "name": "ninja-debug-clang",
+            "configurePreset": "ninja-multi-clang",
             "displayName": "Ninja Debug",
             "jobs": 12,
             "configuration": "Debug"
         },
         {
-            "name": "ninja-release",
-            "configurePreset": "ninja-multi",
+            "name": "ninja-release-clang",
+            "configurePreset": "ninja-multi-clang",
+            "displayName": "Ninja Release",
+            "jobs": 12,
+            "configuration": "Release"
+        },
+        {
+            "name": "ninja-debug-gcc",
+            "configurePreset": "ninja-multi-gcc",
+            "displayName": "Ninja Debug",
+            "jobs": 12,
+            "configuration": "Debug"
+        },
+        {
+            "name": "ninja-release-gcc",
+            "configurePreset": "ninja-multi-gcc",
             "displayName": "Ninja Release",
             "jobs": 12,
             "configuration": "Release"

@@ -71,7 +71,7 @@ extern "C"
         return SDL_APP_CONTINUE;
     }
 
-    SDL_AppResult SDL_AppEvent(void* appstate, const SDL_Event* event)
+    SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
     {
         (void)appstate;
         // AppState& state = *static_cast<AppState*>(appstate);

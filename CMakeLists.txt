@@ -35,10 +35,9 @@ add_subdirectory(modules/engine_backend)
 # Link all together
 add_library(engine STATIC)
 
-target_link_libraries(engine 
+target_link_libraries(engine
     PUBLIC
         Engine::Headers
-        Engine::EntryPoint
     PRIVATE
         Engine::PrivateCompileOptions
         Engine::Backend
@@ -70,7 +69,7 @@ message("#########################################")
 
 message("Build type:         \t ${CMAKE_BUILD_TYPE}")
 message("Install prefix:     \t ${CMAKE_INSTALL_PREFIX}")
-message("Compiler:           \t ${CMAKE_CXX_COMPILER_ID}")
+message("Compiler:           \t ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message("Shared libs:        \t ${BUILD_SHARED_LIBS}")
 message("Testing enabled:    \t ${ENABLE_TESTING}")
 message("Sanizizers:         \t ${ENABLE_ASAN}")

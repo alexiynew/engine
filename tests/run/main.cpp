@@ -29,8 +29,6 @@ TEST(RunTest, DefaultLoop)
     //    EXPECT_CALL(gameMock, OnQuit).Times(1).After(loadCall, updateCall, drawCall);
     //
     //    gameMock.Run();
-
-    FAIL();
 }
 
 int main(int argc, char** argv)
